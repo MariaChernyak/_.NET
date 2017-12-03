@@ -19,20 +19,18 @@ namespace BinaryTreeTests
             tree.Add(7);
             tree.Add(11);
             tree.Add(9);
-
-            var mas = new int[] { 4, 7, 8, 7, 6, 9, 11, 10, 8 };
+            var mas = new[] {4, 7, 8, 7, 6, 9, 11, 10, 8};
             var index = 0;
             var isRight = true;
             foreach (var node in tree.Postorder())
             {
-                if (mas[index] != node.Data)
-                {
+                if (mas[index] != node)
                     isRight = false;
-                }
                 index++;
             }
             Assert.IsTrue(isRight);
         }
+
         [TestMethod]
         public void Int32PreorderTest()
         {
@@ -47,19 +45,18 @@ namespace BinaryTreeTests
             tree.Add(11);
             tree.Add(9);
 
-            var mas = new int[] { 8, 6, 4, 7, 7, 8, 10, 9, 11 };
+            var mas = new[] {8, 6, 4, 7, 7, 8, 10, 9, 11};
             var index = 0;
             var isRight = true;
             foreach (var node in tree.Preorder())
             {
-                if (mas[index] != node.Data)
-                {
+                if (mas[index] != node)
                     isRight = false;
-                }
                 index++;
             }
             Assert.IsTrue(isRight);
         }
+
         [TestMethod]
         public void Int32InorderTest()
         {
@@ -74,19 +71,18 @@ namespace BinaryTreeTests
             tree.Add(11);
             tree.Add(9);
 
-            var mas = new int[] { 4, 6, 7, 7, 8, 8, 9, 10, 11 };
+            var mas = new[] {4, 6, 7, 7, 8, 8, 9, 10, 11};
             var index = 0;
             var isRight = true;
             foreach (var node in tree.Inorder())
             {
-                if (mas[index] != node.Data)
-                {
+                if (mas[index] != node)
                     isRight = false;
-                }
                 index++;
             }
             Assert.IsTrue(isRight);
         }
+
         [TestMethod]
         public void StringPostorderTest()
         {
@@ -99,19 +95,18 @@ namespace BinaryTreeTests
             tree.Add("ea");
             tree.Add("yabc");
 
-            var mas = new string[] { "bb", "bd", "bc", "ea", "yabc", "ef", "de" };
+            var mas = new[] {"bb", "bd", "bc", "ea", "yabc", "ef", "de"};
             var index = 0;
             var isRight = true;
             foreach (var node in tree.Postorder())
             {
-                if (mas[index] != node.Data)
-                {
+                if (mas[index] != node)
                     isRight = false;
-                }
                 index++;
             }
             Assert.IsTrue(isRight);
         }
+
         [TestMethod]
         public void StringPreorderTest()
         {
@@ -124,19 +119,18 @@ namespace BinaryTreeTests
             tree.Add("ea");
             tree.Add("yabc");
 
-            var mas = new string[] { "de", "bc", "bb", "bd", "ef", "ea", "yabc" };
+            var mas = new[] {"de", "bc", "bb", "bd", "ef", "ea", "yabc"};
             var index = 0;
             var isRight = true;
             foreach (var node in tree.Preorder())
             {
-                if (mas[index] != node.Data)
-                {
+                if (mas[index] != node)
                     isRight = false;
-                }
                 index++;
             }
             Assert.IsTrue(isRight);
         }
+
         [TestMethod]
         public void StringInorderTest()
         {
@@ -149,19 +143,18 @@ namespace BinaryTreeTests
             tree.Add("ea");
             tree.Add("yabc");
 
-            var mas = new string[] { "bb", "bc", "bd", "de", "ea", "ef", "yabc" };
+            var mas = new[] {"bb", "bc", "bd", "de", "ea", "ef", "yabc"};
             var index = 0;
             var isRight = true;
             foreach (var node in tree.Inorder())
             {
-                if (mas[index] != node.Data)
-                {
+                if (mas[index] != node)
                     isRight = false;
-                }
                 index++;
             }
             Assert.IsTrue(isRight);
         }
+
         [TestMethod]
         public void StudentPostorderTest()
         {
@@ -181,19 +174,18 @@ namespace BinaryTreeTests
             tree.Add(student6);
             tree.Add(student7);
 
-            var mas = new Student[] { student3, student4, student2, student6, student7, student5, student1 };
+            var mas = new[] {student3, student4, student2, student6, student7, student5, student1};
             var index = 0;
             var isRight = true;
             foreach (var node in tree.Postorder())
             {
-                if (mas[index] != node.Data)
-                {
+                if (mas[index] != node)
                     isRight = false;
-                }
                 index++;
             }
             Assert.IsTrue(isRight);
         }
+
         [TestMethod]
         public void StudentPreorderTest()
         {
@@ -213,19 +205,18 @@ namespace BinaryTreeTests
             tree.Add(student6);
             tree.Add(student7);
 
-            var mas = new Student[] { student1, student2, student3, student4, student5, student6, student7 };
+            var mas = new[] {student1, student2, student3, student4, student5, student6, student7};
             var index = 0;
             var isRight = true;
             foreach (var node in tree.Preorder())
             {
-                if (mas[index] != node.Data)
-                {
+                if (mas[index] != node)
                     isRight = false;
-                }
                 index++;
             }
             Assert.IsTrue(isRight);
         }
+
         [TestMethod]
         public void StudentInorderTest()
         {
@@ -245,31 +236,30 @@ namespace BinaryTreeTests
             tree.Add(student6);
             tree.Add(student7);
 
-            var mas = new Student[] { student3, student2, student4, student1, student6, student5, student7 };
+            var mas = new[] {student3, student2, student4, student1, student6, student5, student7};
             var index = 0;
             var isRight = true;
             foreach (var node in tree.Inorder())
             {
-                if (mas[index].CompareTo(node.Data)!=0)
-                {
+                if (mas[index].CompareTo(node) != 0)
                     isRight = false;
-                }
                 index++;
-            }   
+            }
             Assert.IsTrue(isRight);
         }
+
         [TestMethod]
         public void PointPreorderTest()
         {
             var comparator = new PointCorparator();
             var tree = new BinaryTree<Point>(comparator);
-            var point1 = new Point(8,2);
-            var point2 = new Point(6,3);
-            var point3 = new Point(4,1);
-            var point4 = new Point(7,0);
-            var point5 = new Point(10,5);
-            var point6 = new Point(9,3);
-            var point7 = new Point(11,2);
+            var point1 = new Point(8, 2);
+            var point2 = new Point(6, 3);
+            var point3 = new Point(4, 1);
+            var point4 = new Point(7, 0);
+            var point5 = new Point(10, 5);
+            var point6 = new Point(9, 3);
+            var point7 = new Point(11, 2);
             tree.Add(point1);
             tree.Add(point2);
             tree.Add(point3);
@@ -278,20 +268,17 @@ namespace BinaryTreeTests
             tree.Add(point6);
             tree.Add(point7);
 
-            var mas = new Point[] { point1, point2, point3, point4, point5, point6, point7 };
+            var mas = new[] {point1, point2, point3, point4, point5, point6, point7};
             var index = 0;
             var isRight = true;
-            
-            foreach (var node in tree.Preorder())
+
+            foreach (var node in tree.Postorder())
             {
-                if (comparator.Compare(mas[index], node.Data)!=0)
-                {
+                if (comparator.Compare(mas[index], node) != 0)
                     isRight = false;
-                }
                 index++;
             }
             Assert.IsTrue(isRight);
         }
     }
-
 }

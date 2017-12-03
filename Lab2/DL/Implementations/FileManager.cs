@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using DL.Interfaces;
 using BinaryTree;
+using DL.Interfaces;
 
 namespace DL.Implementations
 {
@@ -14,41 +13,41 @@ namespace DL.Implementations
 
         public FileManager(string path)
         {
-            _tree = new BinaryTree<T>();
             _storage = new BinaryFileStorage<T>(path);
             ReadToTree();
         }
 
-        public IEnumerable<T> GetList<TKey>(Func<T,TKey> predicate, int takeCount = int.MaxValue, bool isAsc = true)
+        public void Add(T item)
         {
-            ReadToTree();
+            _tree.Add(item);
+        }
+
+        public IEnumerable<T> GetList<TKey>(Func<T, TKey> predicate, int takeCount = int.MaxValue, bool isAsc = true)
+        {
             var a = _tree.ToList();
             return (isAsc
-                ? a.OrderBy(predicate)
-                : a.OrderByDescending(predicate))
-                    .Take(takeCount);
+                    ? a.OrderBy(predicate)
+                    : a.OrderByDescending(predicate))
+                .Take(takeCount);
         }
 
         public IEnumerable<T> GetList()
         {
-            ReadToTree();
             return _tree.ToArray();
         }
 
-        public void Save(BinaryTree<T> tree, bool isAppend)
+        public void Save()
         {
-            foreach (var item in tree)
-            {
-                _storage.Save(item, isAppend);
-            }
+            foreach (var item in _tree)
+                _storage.Save(item, true);
         }
+
         private void ReadToTree()
         {
+            _tree = new BinaryTree<T>();
             var list = _storage.ReadAll();
             foreach (var item in list)
-            {
                 _tree.Add(item);
-            }
         }
     }
 }

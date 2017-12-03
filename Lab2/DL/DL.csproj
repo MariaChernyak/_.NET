@@ -45,9 +45,8 @@
   <ItemGroup>
     <Compile Include="Implementations\BinaryFileStorage.cs" />
     <Compile Include="Implementations\FileManager.cs" />
-    <Compile Include="Interfaces\IBinaryFile.cs" />
-    <Compile Include="Interfaces\IFileManager.cs" />
     <Compile Include="Interfaces\IStorage.cs" />
+    <Compile Include="Model\StudentReport.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
