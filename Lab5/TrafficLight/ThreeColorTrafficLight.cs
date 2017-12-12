@@ -16,8 +16,8 @@ namespace TrafficLightApp
                     break;
                 case TrafficColor.Yellow:
                 {
-                    PreviewColor = PreviewColor == TrafficColor.Red ? TrafficColor.Green : TrafficColor.Red;
-                    StateColor = TrafficColor.Red;
+                    StateColor = PreviewColor == TrafficColor.Red ? TrafficColor.Green : TrafficColor.Red;
+                    PreviewColor = StateColor;
                     break;
                 }
                 case TrafficColor.None:
