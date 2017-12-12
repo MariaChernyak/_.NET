@@ -1,0 +1,23 @@
+﻿@using System.Web.UI.WebControls
+@model IEnumerable<BankApp.UI.Models.AccountViewModel>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+@foreach (var acc in Model)
+{
+    using (Html.BeginForm("Change", "Home",FormMethod.Post))
+    {
+        <input type="hidden" value="@acc.Client.Id" name="Id"/>
+        <p>Name @acc.Client.Name</p>
+        <p>Amount @acc.Amount</p>
+        <input type="text" name="Summ" value="@acc.Summ" />
+        <button type="submit" name ="action" value="minus" >Списать</button>
+        <button type="submit" name="action" value="plus">Добавить</button>
+        <button type="submit" name="action" value="close">Закрыть счет</button>
+    }
+
+}
+@Html.ActionLink("Create Account","CreateAccount")
+
