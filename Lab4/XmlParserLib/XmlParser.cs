@@ -10,35 +10,52 @@ namespace XmlParserLib
     {
         private readonly Dictionary<string, int> _nodes = new Dictionary<string, int>();
 
-        public Dictionary<string, int> GetDifferentNode(XmlDocument[] xmlNodes, string xpath)
+        public Dictionary<string, int> GetDifferentNode(IEnumerable<XmlDocument> xmlDocuments, string xpath, int maxThread = 10)
         {
-            Parallel.ForEach(xmlNodes, (xml) =>
+            var na = "N/A";
+            Parallel.ForEach(xmlDocuments,
+                new ParallelOptions { MaxDegreeOfParallelism = maxThread },
+                (xml) =>
             {
-                var nodes = GetNode(xml);
-                var d = nodes.ToArray()[1].SelectSingleNode(xpath);
-                var n = nodes.Where(p=>p.Name == xpath);
-                Parallel.ForEach(n, node =>
+                var nodes = GetNode(xml, xpath);
+                if (nodes == null || !nodes.Any())
                 {
                     lock (_nodes)
                     {
-                        if (!_nodes.ContainsKey(node.InnerXml))
+                        if (_nodes.ContainsKey(na))
                         {
-                            _nodes.Add(node.InnerXml, 1);
+                            _nodes[na]++;
                         }
                         else
                         {
-                            _nodes[node.InnerXml]++;
+                            _nodes.Add(na, 1);
                         }
                     }
-                });
-
+                }
+                else
+                {
+                    Parallel.ForEach(nodes, node =>
+                    {
+                        lock (_nodes)
+                        {
+                            if (!_nodes.ContainsKey(node.InnerXml))
+                            {
+                                _nodes.Add(node.InnerXml, 1);
+                            }
+                            else
+                            {
+                                _nodes[node.InnerXml]++;
+                            }
+                        }
+                    });
+                }
             });
             return _nodes;
         }
 
-        private IEnumerable<XmlNode> GetNode(XmlDocument xml)
+        private IEnumerable<XmlNode> GetNode(XmlDocument xml, string xpath)
         {
-            if (xml==null)
+            if (xml == null)
             {
                 throw new ArgumentNullException(nameof(xml));
             }
@@ -47,12 +64,21 @@ namespace XmlParserLib
             {
                 throw new ArgumentNullException(nameof(xmlDoc));
             }
-            var d = xmlDoc.SelectNodes("*");
-            foreach (XmlNode a in d)
+            var namesp = xmlDoc.NamespaceURI;
+            XmlNodeList list;
+            if (!string.IsNullOrEmpty(namesp))
             {
-                var c = a.InnerXml;
+                var pref = "a";
+                var nsmgr = new XmlNamespaceManager(xml.NameTable);
+                nsmgr.AddNamespace("a", namesp);
+                xpath = pref + ":" + xpath;
+                list = xmlDoc.SelectNodes(xpath, nsmgr);
             }
-            return xmlDoc.SelectSingleNode("sort/@s_c")?.Cast<XmlNode>();
+            else
+            {
+                list = xmlDoc.SelectNodes(xpath);
+            }
+            return list?.Cast<XmlNode>();
         }
     }
 }
